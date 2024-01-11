@@ -1,4 +1,5 @@
-﻿using Look.Model;
+﻿using Look.Dtos;
+using Look.Model;
 using Look.Service.ProjectService;
 using Look.Service.UsersService;
 using Microsoft.AspNetCore.Http;
@@ -20,13 +21,13 @@ namespace Look.Controllers
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<IAsyncEnumerable<Project>>>> GetProjects()
         {
-            return Ok( await _projectInterface.GetProjects() );
+            return Ok(await _projectInterface.GetProjects());
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<IAsyncEnumerable<Project>>>> CreateProject(string name)
+        public async Task<ActionResult<ServiceResponse<IAsyncEnumerable<Project>>>> CreateProject([FromBody] CreateProjectDto projectDto)
         {
-            return Ok(await  _projectInterface.CreateProject(name));
+            return Ok(await _projectInterface.CreateProject(projectDto));
         }
 
         [HttpDelete]
@@ -36,10 +37,11 @@ namespace Look.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<IAsyncEnumerable<Project>>>> UpdadteProject(Guid id, string name)
+        public async Task<ActionResult<ServiceResponse<IAsyncEnumerable<Project>>>> UpdadteProject([FromBody] UpdateProjectDto projectDto)
         {
-            return Ok(await _projectInterface.UpdateProject(id,name));
+            return Ok(await _projectInterface.UpdateProject(projectDto));
 
         }
+
     }
 }

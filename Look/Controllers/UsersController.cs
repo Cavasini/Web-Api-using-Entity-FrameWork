@@ -1,4 +1,5 @@
-﻿using Look.Model;
+﻿using Look.Dtos;
+using Look.Model;
 using Look.Service.UsersService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,9 @@ namespace Look.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<Users>>>> CreateUser(string userName, string password)
+        public async Task<ActionResult<ServiceResponse<List<Users>>>> CreateUser([FromBody] CreateUserDto userDto)
         {
-            return Ok(await _usersInterface.CreateUser(userName, password));
+            return Ok(await _usersInterface.CreateUser(userDto));
         }
 
         [HttpPost("CheckLogin")]

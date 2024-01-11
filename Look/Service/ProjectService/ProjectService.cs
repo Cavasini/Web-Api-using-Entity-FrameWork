@@ -1,23 +1,28 @@
-﻿using Look.DataContext;
+﻿using AutoMapper;
+using Look.DataContext;
+using Look.Dtos;
 using Look.Model;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Look.Service.ProjectService
 {
     public class ProjectService : IProjectInterface
     {
         private readonly ApplicationDbContext _context;
+        private IMapper _mapper;
 
-        public ProjectService(ApplicationDbContext context)
+        public ProjectService(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-        public async Task<ServiceResponse<List<Project>>> CreateProject(string name)
+        public async Task<ServiceResponse<List<Project>>> CreateProject(CreateProjectDto projectDto)
         {
             ServiceResponse<List<Project>> serviceResponse = new ServiceResponse<List<Project>>();
             try
             {
-                Project project = new Project() { Name = name };
-                _context.Projects.Add(project);
+                Project newProject = _mapper.Map<Project>(projectDto);
+                _context.Projects.Add(newProject);
                 await _context.SaveChangesAsync();
                 serviceResponse.Dados = _context.Projects.ToList();
                 serviceResponse.Sucesso = true;
@@ -30,7 +35,6 @@ namespace Look.Service.ProjectService
 
             return serviceResponse;
         }
-
         public async Task<ServiceResponse<List<Project>>> DeleteProject(Guid id)
         {
             ServiceResponse<List<Project>> serviceResponse = new ServiceResponse<List<Project>>();
@@ -77,22 +81,22 @@ namespace Look.Service.ProjectService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Project>>> UpdateProject(Guid id, string name)
+        public async Task<ServiceResponse<List<Project>>> UpdateProject(UpdateProjectDto projectDto)
         {
             ServiceResponse<List<Project>> serviceResponse = new ServiceResponse<List<Project>>();
 
             try
             {
-                Project project = _context.Projects.SingleOrDefault(x => x.Id == id);
+                Project project = _context.Projects.SingleOrDefault(x => x.Id == projectDto.Id);
 
                 if (project != null)
                 {
-                    project.Name = name;
+                    project.Name = projectDto.Name;
                     project.UpdatedAt = DateTime.UtcNow;
                     _context.Projects.Update(project);
                     await _context.SaveChangesAsync();
                     serviceResponse.Dados = _context.Projects.ToList();
-                    serviceResponse.Mensagem = "Projeto Deletado";
+                    serviceResponse.Mensagem = "Projeto Atualizado";
                     serviceResponse.Sucesso = true;
                 }
                 else
@@ -110,5 +114,6 @@ namespace Look.Service.ProjectService
             }
             return serviceResponse;
         }
+
     }
 }

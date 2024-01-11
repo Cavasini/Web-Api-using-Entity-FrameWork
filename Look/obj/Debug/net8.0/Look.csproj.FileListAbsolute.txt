@@ -271,3 +271,6 @@ C:\Users\matth\Documentos\Programacao\.net\Look\Look\obj\Debug\net8.0\Look.pdb
 C:\Users\matth\Documentos\Programacao\.net\Look\Look\obj\Debug\net8.0\Look.genruntimeconfig.cache
 C:\Users\matth\Documentos\Programacao\.net\Look\Look\obj\Debug\net8.0\ref\Look.dll
 C:\Users\matth\Documentos\Programacao\.net\Look\Look\bin\Debug\net8.0\BCrypt.Net.dll
+C:\Users\matth\Documentos\Programacao\.net\Look\Look\obj\Debug\net8.0\Look.sourcelink.json
+C:\Users\matth\Documentos\Programacao\.net\Look\Look\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\matth\Documentos\Programacao\.net\Look\Look\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

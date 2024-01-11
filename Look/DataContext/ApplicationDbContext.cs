@@ -13,5 +13,6 @@ namespace Look.DataContext
         public DbSet<Users> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Tasks> Tasks { get; set; }
+        public DbSet<TimeTracker> TimeTrackers { get; set; }
     }
 }

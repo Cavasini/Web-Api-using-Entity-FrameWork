@@ -1,4 +1,5 @@
-﻿using Look.Model;
+﻿using Look.Dtos;
+using Look.Model;
 using Look.Service.ProjectService;
 using Look.Service.TasksService;
 using Microsoft.AspNetCore.Http;
@@ -22,9 +23,9 @@ namespace Look.Controllers
             return Ok(await _tasksInterface.GetTasks());
         }
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<IAsyncEnumerable<Tasks>>>> CreateTask(string name, string description, Guid projectId)
+        public async Task<ActionResult<ServiceResponse<IAsyncEnumerable<Tasks>>>> CreateTask([FromBody] CreateTaskDto taskDto)
         {
-            return Ok(await _tasksInterface.CreateTask(name, description, projectId));
+            return Ok(await _tasksInterface.CreateTask(taskDto));
         }
     }
 }

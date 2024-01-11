@@ -1,4 +1,6 @@
-﻿using Look.DataContext;
+﻿using AutoMapper;
+using Look.DataContext;
+using Look.Dtos;
 using Look.Model;
 
 namespace Look.Service.TasksService
@@ -6,23 +8,23 @@ namespace Look.Service.TasksService
     public class TasksService : ITasksInterface
     {
         private readonly ApplicationDbContext _context;
+        private IMapper _mapper;
 
-        public TasksService(ApplicationDbContext context)
+        public TasksService(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-        public async Task<ServiceResponse<List<Tasks>>> CreateTask(string name, string description, Guid projectId)
+        public async Task<ServiceResponse<List<Tasks>>> CreateTask(CreateTaskDto taskDto)
         {
             ServiceResponse<List<Tasks>> serviceResponse = new ServiceResponse<List<Tasks>>();
 
             try
-            {
-                Project project = _context.Projects.SingleOrDefault(x => x.Id == projectId);
+            {   
+                Project project = _context.Projects.SingleOrDefault(x => x.Id == taskDto.ProjectId);
                 if (project != null)
                 {
-
-
-                    Tasks newTask = new Tasks() { Name = name, Description = description, ProjectId = projectId };
+                    Tasks newTask = _mapper.Map<Tasks>(taskDto);
                     _context.Tasks.Add(newTask);
                     await _context.SaveChangesAsync();
                     serviceResponse.Dados = _context.Tasks.ToList();

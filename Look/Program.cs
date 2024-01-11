@@ -1,9 +1,11 @@
 using Look.DataContext;
 using Look.Service.ProjectService;
 using Look.Service.TasksService;
+using Look.Service.TimeTrackersService;
 using Look.Service.UsersService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +15,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddScoped<IUsersInterface, UsersService>();
 builder.Services.AddScoped<IProjectInterface, ProjectService>();
 builder.Services.AddScoped<ITasksInterface, TasksService>();
+builder.Services.AddScoped<ITimeTrackerInterface, TimeTrackerService>();
+
+
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
