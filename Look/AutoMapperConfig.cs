@@ -12,5 +12,7 @@ public class AutoMapperConfig : Profile
         CreateMap<UpdateProjectDto, Project>();
 
         CreateMap<CreateTaskDto, Tasks>();
+
+        CreateMap<CreateTimeTrackerDto, TimeTracker>();
     }
 }
